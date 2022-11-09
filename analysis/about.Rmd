@@ -8,3 +8,5 @@ editor_options:
 ---
 
 Describe your project.
+
+This will host a sample of learning how to work with dplyr.
