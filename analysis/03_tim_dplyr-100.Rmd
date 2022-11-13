@@ -8,6 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
                       cache = TRUE, 
+                      autodep = TRUE,
                       cache.lazy = FALSE,
                       message = FALSE, 
                       dpi = 180,
@@ -27,7 +28,240 @@ ggplot2::theme_set(theme_minimal())
 
 In this notebook I will practice the new functions of dplyr using the examples on the site [Tim Mastny dplyr 1.0.0](https://timmastny.com/blog/dplyr-1-rowwise-across/)
 
+This post will concentrate in two functions added in version 1.0.0: `rowwise`, and `across` plus other features.
+
+## Repeating names
+
+When summarizing or mutation columns, we tend to repeat the names of the column when passing the function.
+
+Let's take the mtcars dataset.
+
+```{r create copy of mtcars}
+## Make a copy of mtcars, make a tibble and view it
+mtcars_test <- mtcars %>% 
+  rownames_to_column(var = "car") %>% 
+  as_tibble()
+  
+
+mtcars_test %>% 
+  head()
+
+```
+
+Let's make the columns vs, and am as factors.
+
+```{r mutate columns names stay to stay the same}
+mtcars_test %>% 
+  select(car, vs, am) %>% 
+  mutate(vs = as.factor(vs)) %>% 
+  mutate(am = as.factor(am)) %>% 
+  head()
+
+
+```
+
+As can be seen in lines 56-57, I write the name of the column in the fucntion because I want it to stay the same.
+
+The same case happens when applying `summarize`.
+
+```{r example with summarize}
+## Get the average fo the variables disp and hp
+mtcars_test %>% 
+  summarise(disp = mean(disp),
+            hp = mean(hp))
+  
+
+```
+
+The pattern of repetition is this:
+
+> column_name = func(column_name)
+
+### Using `across`
+
+`dplyr::across` is a way to avoid doing this column name repetition. It keeps the same column name after applying the function.
+
+```{r example using across mutate}
+## Example using across
+mtcars_test %>% 
+  select(car, vs, am) %>%
+  mutate(across(c(vs, am), as.factor))
+
+```
+
+```{r examples across summarise}
+## Summarise to get the mean of disp and hp
+mtcars_test %>% 
+  summarise(across(c(disp, hp), mean))
+
+```
+
+```{r example across summarise numerica variables except disp and hp}
+## Summarise to get the mean of all numeric variables except disp and hp
+mtcars_test %>% 
+  summarise(across(is.numeric & -disp & -hp, mean), 2)
+
+```
+
+## Summary rows
+
+Summary rows display the total of amounts found in their corresponding columns.
+
+Excel does this well with Pivot tables.
+
+In R the result should something like this:
+
+![01 Example with a row of Sum totals](assets/01_total-row-example.png)
+
+Using `rowwise` feature, there is a workaround within R to accomplish this.
+
+### Using `rowwise`
+
+The idea to get a row of totals is to first transpose the columns needed as rows. Then add a rowwise summary and then transpose back to columns.
+
+We will need to use the `pivot_longer`and `pivot_wider` functions from `tidyr`
+
+Let's use the `diamonds` data set to get a dimand_sum summarise table.
+
+```{r diamond summary}
+## First let's get a summary of price, carat and cut
+diamonds_sum <- diamonds %>% 
+  mutate(across(cut, as.character)) %>% 
+  group_by(cut) %>% 
+  summarise(across(price, sum), across(carat, n_distinct), n = n())
+
+diamonds_sum 
+
+```
+
+```{r diamond_sum total table}
+sum_of_sum <- diamonds_sum %>% 
+  summarise(across(-cut, sum))
+
+sum_of_sum
+
+```
+
+Now let's bind them together to create a new talbe that now contains sum_of_sum as the total row
+
+```{r binding the tables to make sum_of_sum the total row}
+diamonds_sum %>% 
+  bind_rows( 
+    sum_of_sum %>% 
+      mutate(cut = "total")
+  )
+
+```
+
+Now on to the rowwise version.
+
+First we will need to transpose the diamonds_sum using `pivot_longer`and `pivot_wider`.
+
+
+In the webisite they use a function to combine them both.  I will copy paste.
+Then, I will do my version without the function just to understand what is 
+happening behind the scenes.  
+
+```{r transposing using a function.  Copied from website}
+transpose_df <- function(x, col, name) {
+  x %>%
+    pivot_longer(-{{ col }}, names_to = name) %>%
+    pivot_wider(names_from = {{ col }})
+}
+
+diamonds_sum %>%
+  transpose_df(col = cut, name = "feature")
+
+```
+Next, it is my version without using the function.  
+
+```{r my version without the function}
+diamonds_sum %>% 
+  pivot_longer(cols = -cut,
+               names_to = "feature") %>% 
+  pivot_wider(names_from = cut)
+
+```
+
+Now we will use the rowwise feature to add a new column with the sum totals.
+
+```{r using rowwise to add a sum total column for each feature}
+diamonds_sum %>%
+  transpose_df(col = cut, name = "feature") %>% 
+  rowwise(feature) %>%  # "feature" the column or variable to get the totals from
+  mutate(total = sum(c_across()))
+
+```
+
+And now we can transpose back to get a total sum row
+
+```{r}
+diamonds_sum %>%
+  transpose_df(col = cut, name = "feature") %>% 
+  rowwise(feature) %>%  # "feature" the column or variable to get the totals from
+  mutate(total = sum(c_across())) %>% 
+  pivot_longer(cols = -feature,
+               names_to = "cut") %>% 
+  pivot_wider(names_from = feature)
+
+
+```
+
+
+
 ## Back to Home
 
 [Home](index.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
