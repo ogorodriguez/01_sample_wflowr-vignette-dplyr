@@ -12,4 +12,10 @@ Welcome to my research website.
 
 This will host a sample of learning how to work with dplyr.
 
+I will be using the following websites:
 
+-   [Towards Data Science: What you need to know about dplyr 1.0.0](01_tds_need-to-know-dplyr.html)
+
+-   [Tychobra My Favorite dplyr 1.0.0 features](02_tychobra_favorite-features-dplyr.html)
+
+-   [Tim Mastny dplyr 1.0.0](03_tim_dplyr-100.html)

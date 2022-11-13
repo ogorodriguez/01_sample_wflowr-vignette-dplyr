@@ -1,0 +1,31 @@
+---
+title: "01 What you need to know about dplyr 1.0.0"
+author: "LJ"
+date: "2022-11-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = TRUE, 
+                      cache.lazy = FALSE,
+                      message = FALSE, 
+                      dpi = 180,
+                      fig.width = 8, 
+                      fig.height = 5)
+
+pacman::p_load(tidyverse,
+               janitor,
+               here)
+
+ggplot2::theme_set(theme_minimal())
+
+
+```
+
+## Introduction
+
+In this notebook I will practice the new functions of dplyr using the examples on the site [Towards Data Science: What you need to know about dplyr 1.0.0](https://timmastny.com/blog/dplyr-1-rowwise-across/)
+
+
+
