@@ -508,7 +508,46 @@ aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
 The following chunks had caches available:
 <ul>
 <li>
+binding the tables to make sum_of_sum the total row
+</li>
+<li>
+create copy of mtcars
+</li>
+<li>
+diamond summary
+</li>
+<li>
+diamond_sum total table
+</li>
+<li>
+example across summarise numerica variables except disp and hp
+</li>
+<li>
+example using across mutate
+</li>
+<li>
+example with summarize
+</li>
+<li>
+examples across summarise
+</li>
+<li>
+mutate columns names stay to stay the same
+</li>
+<li>
+my version without the function
+</li>
+<li>
 session-info-chunk-inserted-by-workflowr
+</li>
+<li>
+transposing using a function. Copied from website
+</li>
+<li>
+unnamed-chunk-1
+</li>
+<li>
+using rowwise to add a sum total column for each feature
 </li>
 </ul>
 <p>To ensure reproducibility of the results, delete the cache directory
@@ -537,15 +576,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree69cb8d4f2724a1dc5ea090f468dfabe821fc3f93targetblank69cb8d4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree52fd9f44389fd24077443c97d6a4a2d1f962ce8atargetblank52fd9f4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/69cb8d4f2724a1dc5ea090f468dfabe821fc3f93" target="_blank">69cb8d4</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/52fd9f44389fd24077443c97d6a4a2d1f962ce8a" target="_blank">52fd9f4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree69cb8d4f2724a1dc5ea090f468dfabe821fc3f93targetblank69cb8d4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree52fd9f44389fd24077443c97d6a4a2d1f962ce8atargetblank52fd9f4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -555,7 +594,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/69cb8d4f2724a1dc5ea090f468dfabe821fc3f93" target="_blank">69cb8d4</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/52fd9f44389fd24077443c97d6a4a2d1f962ce8a" target="_blank">52fd9f4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -581,6 +620,8 @@ Untracked files:
     Untracked:  code/knitr_opts_chunk.R
 
 Unstaged changes:
+    Modified:   analysis/01_tds_need-to-know-dplyr.Rmd
+    Modified:   analysis/02_tychobra_favorite-features-dplyr.Rmd
     Modified:   code/Initialize-code.R
 
 </code></pre>
@@ -627,6 +668,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/52fd9f44389fd24077443c97d6a4a2d1f962ce8a/analysis/03_tim_dplyr-100.Rmd" target="_blank">52fd9f4</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-13
+</td>
+<td>
+Complete analysis from website
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/3140fe01250e5ab73c8472726dca8d60c2b87b0f/docs/03_tim_dplyr-100.html" target="_blank">3140fe0</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -691,6 +766,232 @@ Created links to analysis pages in index
 examples on the site <a
 href="https://timmastny.com/blog/dplyr-1-rowwise-across/">Tim Mastny
 dplyr 1.0.0</a></p>
+<p>This post will concentrate in two functions added in version 1.0.0:
+<code>rowwise</code>, and <code>across</code> plus other features.</p>
+</div>
+<div id="repeating-names" class="section level2">
+<h2>Repeating names</h2>
+<p>When summarizing or mutation columns, we tend to repeat the names of
+the column when passing the function.</p>
+<p>Let’s take the mtcars dataset.</p>
+<pre class="r"><code>## Make a copy of mtcars, make a tibble and view it
+mtcars_test &lt;- mtcars %&gt;% 
+  rownames_to_column(var = &quot;car&quot;) %&gt;% 
+  as_tibble()
+  
+
+mtcars_test %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 12
+  car            mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+  &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 Mazda RX4     21       6   160   110  3.9   2.62  16.5     0     1     4     4
+2 Mazda RX4 W…  21       6   160   110  3.9   2.88  17.0     0     1     4     4
+3 Datsun 710    22.8     4   108    93  3.85  2.32  18.6     1     1     4     1
+4 Hornet 4 Dr…  21.4     6   258   110  3.08  3.22  19.4     1     0     3     1
+5 Hornet Spor…  18.7     8   360   175  3.15  3.44  17.0     0     0     3     2
+6 Valiant       18.1     6   225   105  2.76  3.46  20.2     1     0     3     1</code></pre>
+<p>Let’s make the columns vs, and am as factors.</p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  select(car, vs, am) %&gt;% 
+  mutate(vs = as.factor(vs)) %&gt;% 
+  mutate(am = as.factor(am)) %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 3
+  car               vs    am   
+  &lt;chr&gt;             &lt;fct&gt; &lt;fct&gt;
+1 Mazda RX4         0     1    
+2 Mazda RX4 Wag     0     1    
+3 Datsun 710        1     1    
+4 Hornet 4 Drive    1     0    
+5 Hornet Sportabout 0     0    
+6 Valiant           1     0    </code></pre>
+<p>As can be seen in lines 56-57, I write the name of the column in the
+fucntion because I want it to stay the same.</p>
+<p>The same case happens when applying <code>summarize</code>.</p>
+<pre class="r"><code>## Get the average fo the variables disp and hp
+mtcars_test %&gt;% 
+  summarise(disp = mean(disp),
+            hp = mean(hp))</code></pre>
+<pre><code># A tibble: 1 × 2
+   disp    hp
+  &lt;dbl&gt; &lt;dbl&gt;
+1  231.  147.</code></pre>
+<p>The pattern of repetition is this:</p>
+<blockquote>
+<p>column_name = func(column_name)</p>
+</blockquote>
+<div id="using-across" class="section level3">
+<h3>Using <code>across</code></h3>
+<p><code>dplyr::across</code> is a way to avoid doing this column name
+repetition. It keeps the same column name after applying the
+function.</p>
+<pre class="r"><code>## Example using across
+mtcars_test %&gt;% 
+  select(car, vs, am) %&gt;%
+  mutate(across(c(vs, am), as.factor))</code></pre>
+<pre><code># A tibble: 32 × 3
+   car               vs    am   
+   &lt;chr&gt;             &lt;fct&gt; &lt;fct&gt;
+ 1 Mazda RX4         0     1    
+ 2 Mazda RX4 Wag     0     1    
+ 3 Datsun 710        1     1    
+ 4 Hornet 4 Drive    1     0    
+ 5 Hornet Sportabout 0     0    
+ 6 Valiant           1     0    
+ 7 Duster 360        0     0    
+ 8 Merc 240D         1     0    
+ 9 Merc 230          1     0    
+10 Merc 280          1     0    
+# … with 22 more rows</code></pre>
+<pre class="r"><code>## Summarise to get the mean of disp and hp
+mtcars_test %&gt;% 
+  summarise(across(c(disp, hp), mean))</code></pre>
+<pre><code># A tibble: 1 × 2
+   disp    hp
+  &lt;dbl&gt; &lt;dbl&gt;
+1  231.  147.</code></pre>
+<pre class="r"><code>## Summarise to get the mean of all numeric variables except disp and hp
+mtcars_test %&gt;% 
+  summarise(across(is.numeric &amp; -disp &amp; -hp, mean), 2)</code></pre>
+<pre><code>Warning: Predicate functions must be wrapped in `where()`.
+
+  # Bad
+  data %&gt;% select(is.numeric)
+
+  # Good
+  data %&gt;% select(where(is.numeric))
+
+ℹ Please update your code.
+This message is displayed once per session.</code></pre>
+<pre><code># A tibble: 1 × 10
+    mpg   cyl  drat    wt  qsec    vs    am  gear  carb   `2`
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  20.1  6.19  3.60  3.22  17.8 0.438 0.406  3.69  2.81     2</code></pre>
+</div>
+</div>
+<div id="summary-rows" class="section level2">
+<h2>Summary rows</h2>
+<p>Summary rows display the total of amounts found in their
+corresponding columns.</p>
+<p>Excel does this well with Pivot tables.</p>
+<p>In R the result should something like this:</p>
+<div class="figure">
+<img src="assets/01_total-row-example.png" alt="" />
+<p class="caption">01 Example with a row of Sum totals</p>
+</div>
+<p>Using <code>rowwise</code> feature, there is a workaround within R to
+accomplish this.</p>
+<div id="using-rowwise" class="section level3">
+<h3>Using <code>rowwise</code></h3>
+<p>The idea to get a row of totals is to first transpose the columns
+needed as rows. Then add a rowwise summary and then transpose back to
+columns.</p>
+<p>We will need to use the <code>pivot_longer</code>and
+<code>pivot_wider</code> functions from <code>tidyr</code></p>
+<p>Let’s use the <code>diamonds</code> data set to get a dimand_sum
+summarise table.</p>
+<pre class="r"><code>## First let&#39;s get a summary of price, carat and cut
+diamonds_sum &lt;- diamonds %&gt;% 
+  mutate(across(cut, as.character)) %&gt;% 
+  group_by(cut) %&gt;% 
+  summarise(across(price, sum), across(carat, n_distinct), n = n())
+
+diamonds_sum </code></pre>
+<pre><code># A tibble: 5 × 4
+  cut          price carat     n
+  &lt;chr&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1 Fair       7017600   185  1610
+2 Good      19275009   199  4906
+3 Ideal     74513487   232 21551
+4 Premium   63221498   251 13791
+5 Very Good 48107623   231 12082</code></pre>
+<pre class="r"><code>sum_of_sum &lt;- diamonds_sum %&gt;% 
+  summarise(across(-cut, sum))
+
+sum_of_sum</code></pre>
+<pre><code># A tibble: 1 × 3
+      price carat     n
+      &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1 212135217  1098 53940</code></pre>
+<p>Now let’s bind them together to create a new talbe that now contains
+sum_of_sum as the total row</p>
+<pre class="r"><code>diamonds_sum %&gt;% 
+  bind_rows( 
+    sum_of_sum %&gt;% 
+      mutate(cut = &quot;total&quot;)
+  )</code></pre>
+<pre><code># A tibble: 6 × 4
+  cut           price carat     n
+  &lt;chr&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1 Fair        7017600   185  1610
+2 Good       19275009   199  4906
+3 Ideal      74513487   232 21551
+4 Premium    63221498   251 13791
+5 Very Good  48107623   231 12082
+6 total     212135217  1098 53940</code></pre>
+<p>Now on to the rowwise version.</p>
+<p>First we will need to transpose the diamonds_sum using
+<code>pivot_longer</code>and <code>pivot_wider</code>.</p>
+<p>In the webisite they use a function to combine them both. I will copy
+paste. Then, I will do my version without the function just to
+understand what is happening behind the scenes.</p>
+<pre class="r"><code>transpose_df &lt;- function(x, col, name) {
+  x %&gt;%
+    pivot_longer(-{{ col }}, names_to = name) %&gt;%
+    pivot_wider(names_from = {{ col }})
+}
+
+diamonds_sum %&gt;%
+  transpose_df(col = cut, name = &quot;feature&quot;)</code></pre>
+<pre><code># A tibble: 3 × 6
+  feature    Fair     Good    Ideal  Premium `Very Good`
+  &lt;chr&gt;     &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;       &lt;int&gt;
+1 price   7017600 19275009 74513487 63221498    48107623
+2 carat       185      199      232      251         231
+3 n          1610     4906    21551    13791       12082</code></pre>
+<p>Next, it is my version without using the function.</p>
+<pre class="r"><code>diamonds_sum %&gt;% 
+  pivot_longer(cols = -cut,
+               names_to = &quot;feature&quot;) %&gt;% 
+  pivot_wider(names_from = cut)</code></pre>
+<pre><code># A tibble: 3 × 6
+  feature    Fair     Good    Ideal  Premium `Very Good`
+  &lt;chr&gt;     &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;       &lt;int&gt;
+1 price   7017600 19275009 74513487 63221498    48107623
+2 carat       185      199      232      251         231
+3 n          1610     4906    21551    13791       12082</code></pre>
+<p>Now we will use the rowwise feature to add a new column with the sum
+totals.</p>
+<pre class="r"><code>diamonds_sum %&gt;%
+  transpose_df(col = cut, name = &quot;feature&quot;) %&gt;% 
+  rowwise(feature) %&gt;%  # &quot;feature&quot; the column or variable to get the totals from
+  mutate(total = sum(c_across()))</code></pre>
+<pre><code># A tibble: 3 × 7
+# Rowwise:  feature
+  feature    Fair     Good    Ideal  Premium `Very Good`     total
+  &lt;chr&gt;     &lt;int&gt;    &lt;int&gt;    &lt;int&gt;    &lt;int&gt;       &lt;int&gt;     &lt;int&gt;
+1 price   7017600 19275009 74513487 63221498    48107623 212135217
+2 carat       185      199      232      251         231      1098
+3 n          1610     4906    21551    13791       12082     53940</code></pre>
+<p>And now we can transpose back to get a total sum row</p>
+<pre class="r"><code>diamonds_sum %&gt;%
+  transpose_df(col = cut, name = &quot;feature&quot;) %&gt;% 
+  rowwise(feature) %&gt;%  # &quot;feature&quot; the column or variable to get the totals from
+  mutate(total = sum(c_across())) %&gt;% 
+  pivot_longer(cols = -feature,
+               names_to = &quot;cut&quot;) %&gt;% 
+  pivot_wider(names_from = feature)</code></pre>
+<pre><code># A tibble: 6 × 4
+  cut           price carat     n
+  &lt;chr&gt;         &lt;int&gt; &lt;int&gt; &lt;int&gt;
+1 Fair        7017600   185  1610
+2 Good       19275009   199  4906
+3 Ideal      74513487   232 21551
+4 Premium    63221498   251 13791
+5 Very Good  48107623   231 12082
+6 total     212135217  1098 53940</code></pre>
+</div>
 </div>
 <div id="back-to-home" class="section level2">
 <h2>Back to Home</h2>
@@ -706,7 +1007,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.1 (2022-06-23 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19043)
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
@@ -724,44 +1025,31 @@ other attached packages:
  [9] tibble_3.1.8    ggplot2_3.3.6   tidyverse_1.3.2 workflowr_1.7.0
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.9          lubridate_1.9.0     getPass_0.2-2      
- [4] ps_1.7.1            assertthat_0.2.1    rprojroot_2.0.3    
- [7] digest_0.6.29       utf8_1.2.2          R6_2.5.1           
-[10] cellranger_1.1.0    backports_1.4.1     reprex_2.0.2       
-[13] evaluate_0.16       httr_1.4.4          pillar_1.8.1       
-[16] rlang_1.0.6         readxl_1.4.1        googlesheets4_1.0.1
-[19] rstudioapi_0.14     whisker_0.4         callr_3.7.2        
-[22] jquerylib_0.1.4     rmarkdown_2.16      googledrive_2.0.0  
-[25] munsell_0.5.0       broom_1.0.1         modelr_0.1.9       
-[28] compiler_4.2.1      httpuv_1.6.5        xfun_0.32          
-[31] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.1.2   
-[34] fansi_1.0.3         crayon_1.5.2        withr_2.5.0        
-[37] tzdb_0.3.0          dbplyr_2.2.1        later_1.3.0        
-[40] grid_4.2.1          jsonlite_1.8.3      gtable_0.3.1       
-[43] lifecycle_1.0.3     DBI_1.1.3           git2r_0.30.1       
-[46] pacman_0.5.1        magrittr_2.0.3      scales_1.2.1       
-[49] cli_3.3.0           stringi_1.7.8       cachem_1.0.6       
-[52] fs_1.5.2            promises_1.2.0.1    snakecase_0.11.0   
-[55] xml2_1.3.3          bslib_0.4.0         ellipsis_0.3.2     
-[58] generics_0.1.3      vctrs_0.4.1         tools_4.2.1        
-[61] glue_1.6.2          hms_1.1.2           processx_3.7.0     
-[64] fastmap_1.1.0       yaml_2.3.5          timechange_0.1.1   
-[67] colorspace_2.0-3    gargle_1.2.0        rvest_1.0.3        
-[70] knitr_1.40          haven_2.5.1         sass_0.4.2         </code></pre>
-<div class="alert alert-warning">
-<p>
-<strong>Warning:</strong> The above code chunk cached its results, but
-it won’t be re-run if previous chunks it depends on are updated. If you
-need to use caching, it is highly recommended to also set
-<code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the
-file (in a chunk that is not cached). Alternatively, you can customize
-the option <code>dependson</code> for each individual chunk that is
-cached. Using either <code>autodep</code> or <code>dependson</code> will
-remove this warning. See the
-<a href="https://yihui.name/knitr/options/#cache"
->knitr cache options</a> for more details.
-</p>
-</div>
+ [1] httr_1.4.4          sass_0.4.2          jsonlite_1.8.3     
+ [4] modelr_0.1.9        bslib_0.4.0         assertthat_0.2.1   
+ [7] getPass_0.2-2       highr_0.9           googlesheets4_1.0.1
+[10] cellranger_1.1.0    yaml_2.3.5          pillar_1.8.1       
+[13] backports_1.4.1     glue_1.6.2          digest_0.6.29      
+[16] promises_1.2.0.1    rvest_1.0.3         snakecase_0.11.0   
+[19] colorspace_2.0-3    htmltools_0.5.3     httpuv_1.6.5       
+[22] pkgconfig_2.0.3     broom_1.0.1         haven_2.5.1        
+[25] scales_1.2.1        processx_3.7.0      whisker_0.4        
+[28] later_1.3.0         tzdb_0.3.0          timechange_0.1.1   
+[31] git2r_0.30.1        googledrive_2.0.0   generics_0.1.3     
+[34] ellipsis_0.3.2      cachem_1.0.6        pacman_0.5.1       
+[37] withr_2.5.0         cli_3.3.0           magrittr_2.0.3     
+[40] crayon_1.5.2        readxl_1.4.1        evaluate_0.16      
+[43] ps_1.7.1            fs_1.5.2            fansi_1.0.3        
+[46] xml2_1.3.3          tools_4.2.1         hms_1.1.2          
+[49] gargle_1.2.0        lifecycle_1.0.3     munsell_0.5.0      
+[52] reprex_2.0.2        callr_3.7.2         compiler_4.2.1     
+[55] jquerylib_0.1.4     rlang_1.0.6         grid_4.2.1         
+[58] rstudioapi_0.14     rmarkdown_2.16      gtable_0.3.1       
+[61] codetools_0.2-18    DBI_1.1.3           R6_2.5.1           
+[64] lubridate_1.9.0     knitr_1.40          fastmap_1.1.0      
+[67] utf8_1.2.2          rprojroot_2.0.3     stringi_1.7.8      
+[70] Rcpp_1.0.9          vctrs_0.4.1         dbplyr_2.2.1       
+[73] tidyselect_1.1.2    xfun_0.32          </code></pre>
 </div>
 </div>
 
