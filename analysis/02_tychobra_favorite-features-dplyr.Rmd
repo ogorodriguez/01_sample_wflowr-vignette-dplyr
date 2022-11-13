@@ -28,4 +28,6 @@ ggplot2::theme_set(theme_minimal())
 In this notebook I will practice the new functions of dplyr using the examples on the site [Tychobra My Favorite dplyr 1.0.0 features](https://www.tychobra.com/posts/2020-05-27-new-dplyr-features/)
 
 
+## Back to Home
 
+[Home](index.html)

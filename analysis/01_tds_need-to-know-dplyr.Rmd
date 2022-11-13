@@ -27,5 +27,8 @@ ggplot2::theme_set(theme_minimal())
 
 In this notebook I will practice the new functions of dplyr using the examples on the site [Towards Data Science: What you need to know about dplyr 1.0.0](https://timmastny.com/blog/dplyr-1-rowwise-across/)
 
+## Back to Home
+
+[Home](index.html)
 
 
