@@ -1,0 +1,20 @@
+---
+title: "About"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+Describe your project.
+
+This will host a sample of learning how to work with dplyr.
+
+I will be using the following websites:
+
+-   [Towards Data Science: What you need to know about dplyr 1.0.0](https://timmastny.com/blog/dplyr-1-rowwise-across/)
+
+-   [Tychobra My Favorite dplyr 1.0.0 features](https://www.tychobra.com/posts/2020-05-27-new-dplyr-features/)
+
+-   [Tim Mastny dplyr 1.0.0](https://timmastny.com/blog/dplyr-1-rowwise-across/)
