@@ -1,0 +1,195 @@
+---
+title: "01 What you need to know about dplyr 1.0.0"
+author: "LJ"
+date: "2022-11-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      cache = TRUE, 
+                      autodep = TRUE,
+                      cache.lazy = FALSE,
+                      message = FALSE, 
+                      dpi = 180,
+                      fig.width = 8, 
+                      fig.height = 5)
+
+pacman::p_load(tidyverse,
+               janitor,
+               here)
+
+ggplot2::theme_set(theme_minimal())
+
+
+```
+
+## Introduction
+
+In this notebook I will practice the new functions of dplyr using the examples on the site [Towards Data Science: What you need to know about dplyr 1.0.0](https://towardsdatascience.com/what-you-need-to-know-about-the-new-dplyr-1-0-0-7eaaaf6d78ac)
+
+The article, written by [Keith McNulty](https://keith-mcnulty.medium.com/) for medium.com, goes over seven key functions of the dplyr, version 1.0.0
+
+-   `tidyselect` helper functions
+
+-   `relocate()`
+
+-   `summarise()` expansion
+
+-   `across()`
+
+-   `rowwise()`
+
+-   Running different models
+
+-   `nest_by()`
+
+## The `tidyselect` helper functions
+
+`tidyselect` is an underlying package for others such as tidyr or dplyr itself and it is used to create verbs to interact with the dataframe.
+
+These verbs or helper functions can now be used directly into dplyr as well.
+
+Some examples of these verbs or helper functions are: *all_of()*, *one_of()*, *any_of()*, *starts_with()*, *eval_select()* among others.
+
+For more information about `tidyselect`, please [check here.](https://tidyselect.r-lib.org/articles/tidyselect.html)  
+
+
+We will use a version of the mtcars dataset built as tibble for the examples:
+
+```{r create the mtcars tibble}
+## Make a copy of mtcars, make a tibble and view it
+mtcars_test <- mtcars %>% 
+  rownames_to_column(var = "car") %>% 
+  as_tibble()
+  
+
+mtcars_test %>% 
+  head()
+
+
+```
+
+As a first example, we will use the *starts_with()* function to select some columns
+that start with d and the car column
+
+```{r using starts_with() to select columns}
+mtcars_test %>% 
+  select(car, 
+         starts_with("d")) %>% 
+  head(3)
+
+```
+
+An example with _any_of()_, which selects the variables of the dataset that are only present in the vector with variables to choose from.
+
+```{r example any_of()}
+mtcars_test %>% 
+  select(any_of(c("mpg", "cat", "car", "cyl", "house"))) %>% 
+  head(3)
+
+```
+
+The order of the columns is given by order of the variables in the vector.
+
+If we need to remove the variables in the previous vector c("mpg", "cat", "car", "cyl", "house")
+that are present in the dataframe, we could use `-any_of()`
+
+```{r example - any_of() to remove variables from dataframe}
+mtcars_test %>% 
+  select(-any_of(c("mpg", "cat", "car", "cyl", "house"))) %>% 
+  head(3)
+
+```
+
+
+## `relocate()`
+
+`relocate()` is used to indicate a precise order of the columns in the dataframe.
+
+By default `relocate()` will move the column to the first position from the left.
+
+```{r relocate() default action}
+## Place carb on the first column from the left
+mtcars_test %>% 
+  relocate(carb) %>% 
+  head(3)
+  
+
+```
+
+`relocate()` takes the arguments `.before`, and `.after` to move columns to specific
+places before and/or after an indicated variable.  
+
+```{r `relocate()` with .before and .after arguments}
+## Place the column that start with d, after the car column
+mtcars_test %>% 
+  relocate(starts_with("d"), .after = car) %>% 
+  head(3)
+
+```
+
+## `summarise()` expanded
+
+
+
+## Back to Home
+
+[Home](index.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
