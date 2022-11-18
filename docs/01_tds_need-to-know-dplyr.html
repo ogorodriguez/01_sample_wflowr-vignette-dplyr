@@ -398,7 +398,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-15
+<strong>Last updated:</strong> 2022-11-18
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -521,10 +521,31 @@ example - any_of() to remove variables from dataframe
 example any_of()
 </li>
 <li>
+get means of specific columss using across()
+</li>
+<li>
 relocate() default action
 </li>
 <li>
+same example as before but with less code
+</li>
+<li>
+selecting columns and functions to apply to
+</li>
+<li>
 session-info-chunk-inserted-by-workflowr
+</li>
+<li>
+summarising a range
+</li>
+<li>
+using across() with various functions
+</li>
+<li>
+using glue() syntax for column naming
+</li>
+<li>
+using pivot_wider() to better tabulte previous df
 </li>
 <li>
 using starts_with() to select columns
@@ -556,15 +577,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree75d1d2f2f32a850d19936ba1245adc196d09a434targetblank75d1d2fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreefb29f9f2f56ac1d931428f423f9c8f19197bcd5dtargetblankfb29f9fa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/75d1d2f2f32a850d19936ba1245adc196d09a434" target="_blank">75d1d2f</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/fb29f9f2f56ac1d931428f423f9c8f19197bcd5d" target="_blank">fb29f9f</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree75d1d2f2f32a850d19936ba1245adc196d09a434targetblank75d1d2fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreefb29f9f2f56ac1d931428f423f9c8f19197bcd5dtargetblankfb29f9fa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -574,7 +595,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/75d1d2f2f32a850d19936ba1245adc196d09a434" target="_blank">75d1d2f</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/fb29f9f2f56ac1d931428f423f9c8f19197bcd5d" target="_blank">fb29f9f</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -648,6 +669,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/fb29f9f2f56ac1d931428f423f9c8f19197bcd5d/analysis/01_tds_need-to-know-dplyr.Rmd" target="_blank">fb29f9f</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-18
+</td>
+<td>
+Added sections for summarise, and across
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/be2cab5894c2fa05e70ad2877af891ea07e3bc57/docs/01_tds_need-to-know-dplyr.html" target="_blank">be2cab5</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-15
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -894,6 +949,132 @@ mtcars_test %&gt;%
 1 Mazda RX4      160  3.9   21       6   110  2.62  16.5     0     1     4     4
 2 Mazda RX4 W…   160  3.9   21       6   110  2.88  17.0     0     1     4     4
 3 Datsun 710     108  3.85  22.8     4    93  2.32  18.6     1     1     4     1</code></pre>
+</div>
+<div id="summarise-expanded" class="section level2">
+<h2><code>summarise()</code> expanded</h2>
+<p><code>summarise()</code> has now been expanded to return vectors from
+multiiple inputs. Also it can return now dataframes.</p>
+<p>Some examples:</p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarise(mpg_range = range(mpg)) # range gets the min and max from a list of values</code></pre>
+<pre><code># A tibble: 6 × 2
+# Groups:   cyl [3]
+    cyl mpg_range
+  &lt;dbl&gt;     &lt;dbl&gt;
+1     4      21.4
+2     4      33.9
+3     6      17.8
+4     6      21.4
+5     8      10.4
+6     8      19.2</code></pre>
+<p>Combinin this with <code>pivot_wider()</code> can help create table
+with a min and max column</p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarise(mpg_range = range(mpg)) %&gt;% 
+  mutate(name = rep(c(&quot;min&quot;, &quot;max&quot;), 
+                    length(unique(cyl)))) %&gt;% 
+  pivot_wider(names_from = name,
+              values_from = mpg_range)</code></pre>
+<pre><code># A tibble: 3 × 3
+# Groups:   cyl [3]
+    cyl   min   max
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     4  21.4  33.9
+2     6  17.8  21.4
+3     8  10.4  19.2</code></pre>
+<p>The previous example can be coded more economically like this:</p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarise(min = min(mpg), max = max(mpg))</code></pre>
+<pre><code># A tibble: 3 × 3
+    cyl   min   max
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     4  21.4  33.9
+2     6  17.8  21.4
+3     8  10.4  19.2</code></pre>
+</div>
+<div id="across-for-column-wrangling" class="section level2">
+<h2><code>across()</code> for column wrangling</h2>
+<p><code>across()</code> was introduced to allow more powerful summarise
+actions together with the <code>tidyselect()</code> verbs.
+<code>across()</code> operates across multiple columns and applying
+dplyr functions. It represents a time-saving solution removing the need
+to use the *_at(), or *_if() type of functions of previous dplyr
+versions.</p>
+<p>For example to get the mean of various numercial columns of
+<code>mtcars_test</code></p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarise(across(c(&quot;mpg&quot;, &quot;hp&quot;), mean))</code></pre>
+<pre><code># A tibble: 3 × 3
+    cyl   mpg    hp
+  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1     4  26.7  82.6
+2     6  19.7 122. 
+3     8  15.1 209. </code></pre>
+<p><code>across()</code> is a selecting function. We can identify which
+functions to apply, and then select the columns they will be applied to.
+.</p>
+<pre class="r"><code>dplyr::storms %&gt;% 
+  mutate(across(is_character, as_factor)) %&gt;% 
+  select(name, status)</code></pre>
+<pre><code>Warning: Predicate functions must be wrapped in `where()`.
+
+  # Bad
+  data %&gt;% select(is_character)
+
+  # Good
+  data %&gt;% select(where(is_character))
+
+ℹ Please update your code.
+This message is displayed once per session.</code></pre>
+<pre><code># A tibble: 11,859 × 2
+   name  status             
+   &lt;fct&gt; &lt;fct&gt;              
+ 1 Amy   tropical depression
+ 2 Amy   tropical depression
+ 3 Amy   tropical depression
+ 4 Amy   tropical depression
+ 5 Amy   tropical depression
+ 6 Amy   tropical depression
+ 7 Amy   tropical depression
+ 8 Amy   tropical depression
+ 9 Amy   tropical storm     
+10 Amy   tropical storm     
+# … with 11,849 more rows</code></pre>
+<p>Also multiple functions can be applied if passed on as a list
+argument.</p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarise(across(c(&quot;mpg&quot;, &quot;hp&quot;),
+                   list(mean = mean, 
+                        median = median, 
+                        sd = sd)))</code></pre>
+<pre><code># A tibble: 3 × 7
+    cyl mpg_mean mpg_median mpg_sd hp_mean hp_median hp_sd
+  &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;
+1     4     26.7       26     4.51    82.6       91   20.9
+2     6     19.7       19.7   1.45   122.       110   24.3
+3     8     15.1       15.2   2.56   209.       192.  51.0</code></pre>
+<p>Using <code>glue()</code> syntax to add the name of the column and
+the function applied to the names fo the new columns.</p>
+<pre class="r"><code>mtcars_test %&gt;% 
+  group_by(cyl) %&gt;% 
+  summarise(across(starts_with(&quot;d&quot;), 
+                   list(mean = mean,
+                        median = median,
+                        sd = sd), 
+                   .names = &quot;{col}_{fn}_summ&quot;))</code></pre>
+<pre><code># A tibble: 3 × 7
+    cyl disp_mean_summ disp_median_summ disp_sd_summ drat_mean…¹ drat_…² drat_…³
+  &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1     4           105.             108          26.9        4.07    4.08   0.365
+2     6           183.             168.         41.6        3.59    3.9    0.476
+3     8           353.             350.         67.8        3.23    3.12   0.372
+# … with abbreviated variable names ¹​drat_mean_summ, ²​drat_median_summ,
+#   ³​drat_sd_summ</code></pre>
 </div>
 <div id="back-to-home" class="section level2">
 <h2>Back to Home</h2>
