@@ -129,6 +129,95 @@ mtcars_test %>%
 
 ```
 
+## `summarise()` expanded
+
+`summarise()` has now been expanded to return vectors from multiiple inputs.
+Also it can return now dataframes.  
+
+Some examples:
+
+```{r summarising a range}
+mtcars_test %>% 
+  group_by(cyl) %>% 
+  summarise(mpg_range = range(mpg)) # range gets the min and max from a list of values
+  
+
+```
+
+Combinin this with  `pivot_wider()` can help create  table with a min and max column
+
+```{r using pivot_wider() to better tabulte previous df}
+mtcars_test %>% 
+  group_by(cyl) %>% 
+  summarise(mpg_range = range(mpg)) %>% 
+  mutate(name = rep(c("min", "max"), 
+                    length(unique(cyl)))) %>% 
+  pivot_wider(names_from = name,
+              values_from = mpg_range)
+
+```
+The previous example can be coded more economically like this:
+
+```{r same example as before but with less code}
+mtcars_test %>% 
+  group_by(cyl) %>% 
+  summarise(min = min(mpg), max = max(mpg))
+  
+
+```
+
+## `across()` for column wrangling
+
+`across()` was introduced to allow more powerful summarise actions together with the
+`tidyselect()` verbs.  `across()` operates across multiple columns and applying dplyr
+functions.  It represents a time-saving solution removing the need to use the *_at(), or
+*_if() type of functions of previous dplyr versions.
+
+For example to get the mean of various numercial columns of `mtcars_test`
+
+```{r get means of specific columss using across()}
+mtcars_test %>% 
+  group_by(cyl) %>% 
+  summarise(across(c("mpg", "hp"), mean))
+
+```
+
+`across()` is a selecting function.  We can identify which functions to apply, 
+and then select the columns they will be applied to.
+.
+```{r selecting columns and functions to apply to}
+dplyr::storms %>% 
+  mutate(across(is_character, as_factor)) %>% 
+  select(name, status)
+
+```
+
+Also multiple functions can be applied if passed on as a list argument.
+
+```{r using across() with various functions}
+mtcars_test %>% 
+  group_by(cyl) %>% 
+  summarise(across(c("mpg", "hp"),
+                   list(mean = mean, 
+                        median = median, 
+                        sd = sd)))
+
+
+
+```
+Using `glue()` syntax to add the name of the column and the function applied to the
+names fo the new columns.
+
+```{r using glue() syntax for column naming}
+mtcars_test %>% 
+  group_by(cyl) %>% 
+  summarise(across(starts_with("d"), 
+                   list(mean = mean,
+                        median = median,
+                        sd = sd), 
+                   .names = "{col}_{fn}_summ"))
+```
+
 
 ## Back to Home
 
