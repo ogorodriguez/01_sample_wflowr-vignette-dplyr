@@ -52,8 +52,7 @@ These verbs or helper functions can now be used directly into dplyr as well.
 
 Some examples of these verbs or helper functions are: *all_of()*, *one_of()*, *any_of()*, *starts_with()*, *eval_select()* among others.
 
-For more information about `tidyselect`, please [check here.](https://tidyselect.r-lib.org/articles/tidyselect.html)  
-
+For more information about `tidyselect`, please [check here.](https://tidyselect.r-lib.org/articles/tidyselect.html)
 
 We will use a version of the mtcars dataset built as tibble for the examples:
 
@@ -70,8 +69,7 @@ mtcars_test %>%
 
 ```
 
-As a first example, we will use the *starts_with()* function to select some columns
-that start with d and the car column
+As a first example, we will use the *starts_with()* function to select some columns that start with d and the car column
 
 ```{r using starts_with() to select columns}
 mtcars_test %>% 
@@ -81,7 +79,7 @@ mtcars_test %>%
 
 ```
 
-An example with _any_of()_, which selects the variables of the dataset that are only present in the vector with variables to choose from.
+An example with *any_of()*, which selects the variables of the dataset that are only present in the vector with variables to choose from.
 
 ```{r example any_of()}
 mtcars_test %>% 
@@ -92,8 +90,7 @@ mtcars_test %>%
 
 The order of the columns is given by order of the variables in the vector.
 
-If we need to remove the variables in the previous vector c("mpg", "cat", "car", "cyl", "house")
-that are present in the dataframe, we could use `-any_of()`
+If we need to remove the variables in the previous vector c("mpg", "cat", "car", "cyl", "house") that are present in the dataframe, we could use `-any_of()`
 
 ```{r example - any_of() to remove variables from dataframe}
 mtcars_test %>% 
@@ -101,7 +98,6 @@ mtcars_test %>%
   head(3)
 
 ```
-
 
 ## `relocate()`
 
@@ -118,8 +114,7 @@ mtcars_test %>%
 
 ```
 
-`relocate()` takes the arguments `.before`, and `.after` to move columns to specific
-places before and/or after an indicated variable.  
+`relocate()` takes the arguments `.before`, and `.after` to move columns to specific places before and/or after an indicated variable.
 
 ```{r `relocate()` with .before and .after arguments}
 ## Place the column that start with d, after the car column
@@ -131,8 +126,7 @@ mtcars_test %>%
 
 ## `summarise()` expanded
 
-`summarise()` has now been expanded to return vectors from multiiple inputs.
-Also it can return now dataframes.  
+`summarise()` has now been expanded to return vectors from multiiple inputs. Also it can return now dataframes.
 
 Some examples:
 
@@ -144,7 +138,7 @@ mtcars_test %>%
 
 ```
 
-Combinin this with  `pivot_wider()` can help create  table with a min and max column
+Combinin this with `pivot_wider()` can help create table with a min and max column
 
 ```{r using pivot_wider() to better tabulte previous df}
 mtcars_test %>% 
@@ -156,6 +150,7 @@ mtcars_test %>%
               values_from = mpg_range)
 
 ```
+
 The previous example can be coded more economically like this:
 
 ```{r same example as before but with less code}
@@ -168,12 +163,9 @@ mtcars_test %>%
 
 ## `across()` for column wrangling
 
-`across()` was introduced to allow more powerful summarise actions together with the
-`tidyselect()` verbs.  `across()` operates across multiple columns and applying dplyr
-functions.  It represents a time-saving solution removing the need to use the *_at(), or
-*_if() type of functions of previous dplyr versions.
+`across()` was introduced to allow more powerful `summarise` actions together with the `tidyselect()` verbs. `across()` operates across multiple columns and applying dplyr functions. It represents a time-saving solution removing the need to use the `*_at()`, or `*_if()` type of functions of previous dplyr versions.
 
-For example to get the mean of various numercial columns of `mtcars_test`
+For example to get the mean of various numerical columns of `mtcars_test`
 
 ```{r get means of specific columss using across()}
 mtcars_test %>% 
@@ -182,14 +174,12 @@ mtcars_test %>%
 
 ```
 
-`across()` is a selecting function.  We can identify which functions to apply, 
-and then select the columns they will be applied to.
-.
-```{r selecting columns and functions to apply to}
-dplyr::storms %>% 
-  mutate(across(is_character, as_factor)) %>% 
-  select(name, status)
+`across()` is a selecting function. We can identify which functions to apply, and then select the columns they will be applied to.  This is a substitute for `mutate_if`.
 
+```{r}
+dplyr::storms %>% 
+  mutate(across(where(is_character), as_factor)) %>% 
+  select(name, status)
 ```
 
 Also multiple functions can be applied if passed on as a list argument.
@@ -202,11 +192,9 @@ mtcars_test %>%
                         median = median, 
                         sd = sd)))
 
-
-
 ```
-Using `glue()` syntax to add the name of the column and the function applied to the
-names fo the new columns.
+
+Using `glue()` syntax to add the name of the column and the function applied to the names fo the new columns.
 
 ```{r using glue() syntax for column naming}
 mtcars_test %>% 
@@ -214,68 +202,15 @@ mtcars_test %>%
   summarise(across(starts_with("d"), 
                    list(mean = mean,
                         median = median,
-                        sd = sd), 
+                        sd = sd,
+                        mode = mode), 
                    .names = "{col}_{fn}_summ"))
 ```
+
+## `rowwise()`
+
 
 
 ## Back to Home
 
 [Home](index.html)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
