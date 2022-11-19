@@ -398,7 +398,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-18
+<strong>Last updated:</strong> 2022-11-19
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -539,6 +539,9 @@ session-info-chunk-inserted-by-workflowr
 summarising a range
 </li>
 <li>
+unnamed-chunk-1
+</li>
+<li>
 using across() with various functions
 </li>
 <li>
@@ -577,15 +580,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreefb29f9f2f56ac1d931428f423f9c8f19197bcd5dtargetblankfb29f9fa">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree284c49585f4ab2147c0795f71e8d2f8c6ac8c241targetblank284c495a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/fb29f9f2f56ac1d931428f423f9c8f19197bcd5d" target="_blank">fb29f9f</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/284c49585f4ab2147c0795f71e8d2f8c6ac8c241" target="_blank">284c495</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreefb29f9f2f56ac1d931428f423f9c8f19197bcd5dtargetblankfb29f9fa"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree284c49585f4ab2147c0795f71e8d2f8c6ac8c241targetblank284c495a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -595,7 +598,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/fb29f9f2f56ac1d931428f423f9c8f19197bcd5d" target="_blank">fb29f9f</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/284c49585f4ab2147c0795f71e8d2f8c6ac8c241" target="_blank">284c495</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -669,6 +672,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/284c49585f4ab2147c0795f71e8d2f8c6ac8c241/analysis/01_tds_need-to-know-dplyr.Rmd" target="_blank">284c495</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-19
+</td>
+<td>
+Corrected text and added rowwise() section
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/dba12a04631eb53df922dd4627b70a4f5e61a8f4/docs/01_tds_need-to-know-dplyr.html" target="_blank">dba12a0</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -997,13 +1034,13 @@ with a min and max column</p>
 </div>
 <div id="across-for-column-wrangling" class="section level2">
 <h2><code>across()</code> for column wrangling</h2>
-<p><code>across()</code> was introduced to allow more powerful summarise
-actions together with the <code>tidyselect()</code> verbs.
-<code>across()</code> operates across multiple columns and applying
-dplyr functions. It represents a time-saving solution removing the need
-to use the *_at(), or *_if() type of functions of previous dplyr
-versions.</p>
-<p>For example to get the mean of various numercial columns of
+<p><code>across()</code> was introduced to allow more powerful
+<code>summarise</code> actions together with the
+<code>tidyselect()</code> verbs. <code>across()</code> operates across
+multiple columns and applying dplyr functions. It represents a
+time-saving solution removing the need to use the <code>*_at()</code>,
+or <code>*_if()</code> type of functions of previous dplyr versions.</p>
+<p>For example to get the mean of various numerical columns of
 <code>mtcars_test</code></p>
 <pre class="r"><code>mtcars_test %&gt;% 
   group_by(cyl) %&gt;% 
@@ -1016,20 +1053,10 @@ versions.</p>
 3     8  15.1 209. </code></pre>
 <p><code>across()</code> is a selecting function. We can identify which
 functions to apply, and then select the columns they will be applied to.
-.</p>
+This is a substitute for <code>mutate_if</code>.</p>
 <pre class="r"><code>dplyr::storms %&gt;% 
-  mutate(across(is_character, as_factor)) %&gt;% 
+  mutate(across(where(is_character), as_factor)) %&gt;% 
   select(name, status)</code></pre>
-<pre><code>Warning: Predicate functions must be wrapped in `where()`.
-
-  # Bad
-  data %&gt;% select(is_character)
-
-  # Good
-  data %&gt;% select(where(is_character))
-
-ℹ Please update your code.
-This message is displayed once per session.</code></pre>
 <pre><code># A tibble: 11,859 × 2
    name  status             
    &lt;fct&gt; &lt;fct&gt;              
@@ -1065,16 +1092,21 @@ the function applied to the names fo the new columns.</p>
   summarise(across(starts_with(&quot;d&quot;), 
                    list(mean = mean,
                         median = median,
-                        sd = sd), 
+                        sd = sd,
+                        mode = mode), 
                    .names = &quot;{col}_{fn}_summ&quot;))</code></pre>
-<pre><code># A tibble: 3 × 7
-    cyl disp_mean_summ disp_median_summ disp_sd_summ drat_mean…¹ drat_…² drat_…³
-  &lt;dbl&gt;          &lt;dbl&gt;            &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-1     4           105.             108          26.9        4.07    4.08   0.365
-2     6           183.             168.         41.6        3.59    3.9    0.476
-3     8           353.             350.         67.8        3.23    3.12   0.372
-# … with abbreviated variable names ¹​drat_mean_summ, ²​drat_median_summ,
-#   ³​drat_sd_summ</code></pre>
+<pre><code># A tibble: 3 × 9
+    cyl disp_mean_summ disp_me…¹ disp_…² disp_…³ drat_…⁴ drat_…⁵ drat_…⁶ drat_…⁷
+  &lt;dbl&gt;          &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1     4           105.      108     26.9 numeric    4.07    4.08   0.365 numeric
+2     6           183.      168.    41.6 numeric    3.59    3.9    0.476 numeric
+3     8           353.      350.    67.8 numeric    3.23    3.12   0.372 numeric
+# … with abbreviated variable names ¹​disp_median_summ, ²​disp_sd_summ,
+#   ³​disp_mode_summ, ⁴​drat_mean_summ, ⁵​drat_median_summ, ⁶​drat_sd_summ,
+#   ⁷​drat_mode_summ</code></pre>
+</div>
+<div id="rowwise" class="section level2">
+<h2><code>rowwise()</code></h2>
 </div>
 <div id="back-to-home" class="section level2">
 <h2>Back to Home</h2>
