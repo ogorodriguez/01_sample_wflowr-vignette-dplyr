@@ -40,9 +40,7 @@ The article, written by [Keith McNulty](https://keith-mcnulty.medium.com/) for m
 
 -   `rowwise()`
 
--   Running different models
 
--   `nest_by()`
 
 ## The `tidyselect` helper functions
 
@@ -209,8 +207,87 @@ mtcars_test %>%
 
 ## `rowwise()`
 
+`rowwise()`is included in `dplyr` to allow operations to be done with values horizontally or in rows.  
+For examples, calculation the average number of phones per region in the dataset WorldPhones is calculation that 
+can be done horizontally without having to write a formula for it, and thus having those results as a column.
+
+```{r using rowwise to calculate the mean 01}
+## Let's create our test tibble from WorldPhones dataset
+worldphones_df <- WorldPhones %>% 
+  as.data.frame() %>% 
+  rownames_to_column(var = "year") %>% 
+  as_tibble() %>% 
+  clean_names()
+
+worldphones_df %>% 
+  head()
+
+```
+```{r using rowwise to calculate the mean 02}
+## create a new column that will have the mean of all these values
+worldphones_df %>% 
+  rowwise() %>% 
+  mutate(avg = mean(c_across(n_amer:mid_amer))) %>% 
+  head()
+
+```
+
+```{r another rowwise() example with a range of numbers 01}
+## Create a tibble with four columns and 10 rows with random numbers
+test_df <- tibble(
+  a = round(100 * runif(10),0),
+  b = a * 2,
+  c = round(100* 1 / a, 0),
+  d = round(c, 0) + 1
+)
+
+test_df
+
+```
+
+```{r another rowwise() example with a range of numbers 02}
+test_df %>% 
+  rowwise() %>% 
+  mutate(sum = sum(c_across(a:d)))
+
+```
 
 
 ## Back to Home
 
 [Home](index.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
