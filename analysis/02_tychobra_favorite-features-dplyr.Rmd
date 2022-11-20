@@ -160,8 +160,6 @@ ames_data %>%
 
 Which are the 5 cheapest houses?
 
-  Old way to grab the five most expensives houses in the Ames Housing dataset
-  
 ```{r new way with slice to get 5 lowest values}
 ames_data %>% 
    slice_min(sale_price, 
