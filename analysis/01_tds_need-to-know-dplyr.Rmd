@@ -232,6 +232,19 @@ worldphones_df %>%
 
 ```
 
+The same result with `rowwise()` can be obtained by adding to it as argument the columns we will need to exclude from the calculation.  In this case, "year".
+
+```{r}
+worldphones_df %>% 
+  rowwise(year) %>%  ## Adding the column "year" as argument excludes it from the calculation and makes the code less wordy
+  mutate(avg = mean(c_across())) %>% 
+  head()
+
+```
+
+
+
+
 ```{r another rowwise() example with a range of numbers 01}
 ## Create a tibble with four columns and 10 rows with random numbers
 test_df <- tibble(
