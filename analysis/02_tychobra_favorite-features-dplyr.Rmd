@@ -7,7 +7,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, 
-                      cache = TRUE, 
+                      cache = TRUE,
+                      autodep = TRUE,
                       cache.lazy = FALSE,
                       message = FALSE, 
                       dpi = 180,
@@ -20,14 +21,257 @@ pacman::p_load(tidyverse,
 
 ggplot2::theme_set(theme_minimal())
 
-
 ```
 
 ## Introduction
 
 In this notebook I will practice the new functions of dplyr using the examples on the site [Tychobra My Favorite dplyr 1.0.0 features](https://www.tychobra.com/posts/2020-05-27-new-dplyr-features/)
 
+The article was written by [Nick Merlino from ](https://www.tychobra.com/about/) for Tychobra, makers of the polished R package for Shiny apps.
+
+These are the functions that will be covered here:
+
+-    `across()`
+
+-    `slice()`
+
+-    `nest_by()`
+
+-   `.before` and `after`
+
+In this practice workbook we'll load the `AmesHousing` package for its corresponding dataset.
+
+```{r download the AmesHousing dataset}
+## Load the housing data, clean names, and select six columns
+pacman::p_load(AmesHousing)
+
+ames_data <- make_ames() %>% ## this normalizes the Ames Housing dataset a bit. 
+  janitor::clean_names() %>% 
+  select(sale_price, bsmt_fin_sf_1, first_flr_sf, 
+         total_bsmt_sf, neighborhood, gr_liv_area)
+
+ames_data %>% 
+  head()
+
+```
+
+
+## `across()`
+
+`across()` was created to supersede the functions that used to have as suffix
+`*_at()`, `*_all()` or `*_if()`.  
+
+The data contains measurements for the basements, rooms, and living area of the houses in square feet.
+Let's convert that to yards using a function.
+
+```{r function to convert feet to yards}
+ft_to_yrds <- function (x) {
+  x / 9
+}
+
+```
+
+The old way using mutate would have been:
+
+```{r convert feet to yards using mutate}
+ames_data %>% 
+  mutate_at(.vars = vars(contains("_sf") | contains("area")), 
+            .funs = ft_to_yrds) %>% 
+  head()
+
+```
+
+Using `across()`
+
+```{r convert feet to yards using across}
+ames_data %>% 
+  mutate(across(.cols = c(contains("_sf"), contains("area")),
+                .fns= ft_to_yrds)) %>% 
+  head()
+
+```
+
+`across()` can be also be used in combination with `where`.
+
+```{r use `across()` with `where`}
+## Use the log function in dplyr to transform numeric values
+ames_data %>% 
+  mutate(across(where(is.numeric), log)) %>% 
+  head()
+
+
+```
+
+Together with `summarise()`, the use of `across()` with `where` can be used to empower more the mutate verb.
+`across()` has an argument called .names used to rename columns by adding a prefix
+
+```{r using summarise with acros and where}
+ames_data %>% 
+  group_by(neighborhood) %>% 
+  summarise(across(where(is.numeric),
+                   mean,
+                   .names = "mean_{col}")) %>% # .names creates new names for the columns with this syntax
+  head()
+  
+```
+
+The following examples shows how `across()` combines a `mutate_if`, and a `mutate_at`
+in one single,  _elegant_ line of code.
+
+```{r use `across()` to combine mutate_at and mutate_if}
+## Change to double the integer variables that ends with "_sf" only.
+## The two conditions are: integer(mutate_if), and has "_Sf" mutate_at)
+ames_data %>% 
+  mutate(across(where(is_integer) & ends_with("_sf"), 
+                      as.double)) %>% 
+  head()
+
+```
+
+`across()` can also do a mutate_all if we add everything() as argument: `across(everything(),...`
+
+## `slice()`
+
+ `slice()` and its helpers are now the way to select the top or lower values in a set and
+ also to select random samples from the data.  
+ 
+  `slice()`supersedes `top_n()`, `sample_n()`, `sample_frac()` functions due their
+  confusing interpretation.
+  
+  Examples:
+  
+  Old way to grab the five most expensives houses in the Ames Housing dataset
+  
+```{r old way with top_n to get 5 highest values}
+ames_data %>% 
+  top_n(n = 5, 
+        wt = sale_price)
+
+```
+  
+  New way to grab the five most expensives houses with `slice`
+  
+```{r new way with slice to get 5 highest values}
+ames_data %>% 
+  slice_max(sale_price, 
+            n = 5)
+
+```
+
+Which are the 5 cheapest houses?
+
+  Old way to grab the five most expensives houses in the Ames Housing dataset
+  
+```{r new way with slice to get 5 lowest values}
+ames_data %>% 
+   slice_min(sale_price, 
+            n = 5)
+
+```
+
+Let's now select 4 random rows.
+
+```{r select random rows from the dataset}
+ames_data %>% 
+   slice_sample(n = 4)
+
+```
+
+To get a sample based on a proportion of the set (a percentage), we use the prop argument with
+`slice_sample`.
+
+```{r}
+## Get a random sample of the 0.2% of the rows.  Result is 5 rows.
+ames_data %>% 
+  slice_sample(prop = 0.002)
+  
+```
+
+Additionally, `slice_head()`, and `slice_tails()` are used to show the first or last rows
+respectively.  
+
+
+
+
+
 
 ## Back to Home
 
 [Home](index.html)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
