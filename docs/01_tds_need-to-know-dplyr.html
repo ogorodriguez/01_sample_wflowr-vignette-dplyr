@@ -398,7 +398,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-19
+<strong>Last updated:</strong> 2022-11-20
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -548,6 +548,9 @@ summarising a range
 unnamed-chunk-1
 </li>
 <li>
+unnamed-chunk-2
+</li>
+<li>
 using across() with various functions
 </li>
 <li>
@@ -592,15 +595,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreed532acb926c3d2b7abb30639de4f892d4f684ef0targetblankd532acba">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreecaabd402396c2e05f394aaa9e4dfefe963ede140targetblankcaabd40a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/d532acb926c3d2b7abb30639de4f892d4f684ef0" target="_blank">d532acb</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/caabd402396c2e05f394aaa9e4dfefe963ede140" target="_blank">caabd40</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreed532acb926c3d2b7abb30639de4f892d4f684ef0targetblankd532acba"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreecaabd402396c2e05f394aaa9e4dfefe963ede140targetblankcaabd40a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -610,7 +613,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/d532acb926c3d2b7abb30639de4f892d4f684ef0" target="_blank">d532acb</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/caabd402396c2e05f394aaa9e4dfefe963ede140" target="_blank">caabd40</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -684,6 +687,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/caabd402396c2e05f394aaa9e4dfefe963ede140/analysis/01_tds_need-to-know-dplyr.Rmd" target="_blank">caabd40</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-20
+</td>
+<td>
+Added another rowwise() example with arguments
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/b71bcd9337bc49ed20e0ed83eafa1856784a698e/docs/01_tds_need-to-know-dplyr.html" target="_blank">b71bcd9</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1182,6 +1219,23 @@ worldphones_df %&gt;%
   head()</code></pre>
 <pre><code># A tibble: 6 × 9
 # Rowwise: 
+  year  n_amer europe  asia s_amer oceania africa mid_amer    avg
+  &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+1 1951   45939  21574  2876   1815    1646     89      555 10642 
+2 1956   60423  29990  4708   2568    2366   1411      733 14600.
+3 1957   64721  32510  5230   2695    2526   1546      773 15714.
+4 1958   68484  35218  6662   2845    2691   1663      836 16914.
+5 1959   71799  37598  6856   3000    2868   1769      911 17829.
+6 1960   76036  40341  8220   3145    3054   1905     1008 19101.</code></pre>
+<p>The same result with <code>rowwise()</code> can be obtained by adding
+to it as argument the columns we will need to exclude from the
+calculation. In this case, “year”.</p>
+<pre class="r"><code>worldphones_df %&gt;% 
+  rowwise(year) %&gt;%  ## Adding the column &quot;year&quot; as argument excludes it from the calculation and makes the code less wordy
+  mutate(avg = mean(c_across())) %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 9
+# Rowwise:  year
   year  n_amer europe  asia s_amer oceania africa mid_amer    avg
   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
 1 1951   45939  21574  2876   1815    1646     89      555 10642 
