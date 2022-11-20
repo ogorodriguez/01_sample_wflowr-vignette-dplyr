@@ -397,7 +397,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-13
+<strong>Last updated:</strong> 2022-11-20
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -508,7 +508,43 @@ aria-hidden="true"></span> <strong>Cache:</strong> detected </a>
 The following chunks had caches available:
 <ul>
 <li>
+convert feet to yards using across
+</li>
+<li>
+convert feet to yards using mutate
+</li>
+<li>
+download the AmesHousing dataset
+</li>
+<li>
+function to convert feet to yards
+</li>
+<li>
+new way with slice to get 5 highest values
+</li>
+<li>
+new way with slice to get 5 lowest values
+</li>
+<li>
+old way with top_n to get 5 highest values
+</li>
+<li>
+select random rows from the dataset
+</li>
+<li>
 session-info-chunk-inserted-by-workflowr
+</li>
+<li>
+unnamed-chunk-1
+</li>
+<li>
+use <code>across()</code> to combine mutate_at and mutate_if
+</li>
+<li>
+use <code>across()</code> with <code>where</code>
+</li>
+<li>
+using summarise with acros and where
 </li>
 </ul>
 <p>To ensure reproducibility of the results, delete the cache directory
@@ -537,15 +573,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree69cb8d4f2724a1dc5ea090f468dfabe821fc3f93targetblank69cb8d4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree1092894d45bf7fadb44211e4f23311689fc41362targetblank1092894a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/69cb8d4f2724a1dc5ea090f468dfabe821fc3f93" target="_blank">69cb8d4</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/1092894d45bf7fadb44211e4f23311689fc41362" target="_blank">1092894</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree69cb8d4f2724a1dc5ea090f468dfabe821fc3f93targetblank69cb8d4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree1092894d45bf7fadb44211e4f23311689fc41362targetblank1092894a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -555,7 +591,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/69cb8d4f2724a1dc5ea090f468dfabe821fc3f93" target="_blank">69cb8d4</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/1092894d45bf7fadb44211e4f23311689fc41362" target="_blank">1092894</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -633,6 +669,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/1092894d45bf7fadb44211e4f23311689fc41362/analysis/02_tychobra_favorite-features-dplyr.Rmd" target="_blank">1092894</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-20
+</td>
+<td>
+Second practice initiated. Revised practice 01 and 03
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/3140fe01250e5ab73c8472726dca8d60c2b87b0f/docs/02_tychobra_favorite-features-dplyr.html" target="_blank">3140fe0</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/69cb8d4f2724a1dc5ea090f468dfabe821fc3f93/analysis/02_tychobra_favorite-features-dplyr.Rmd" target="_blank">69cb8d4</a>
 </td>
 <td>
@@ -692,6 +762,212 @@ Created links to analysis pages in index
 examples on the site <a
 href="https://www.tychobra.com/posts/2020-05-27-new-dplyr-features/">Tychobra
 My Favorite dplyr 1.0.0 features</a></p>
+<p>The article was written by <a
+href="https://www.tychobra.com/about/">Nick Merlino from</a> for
+Tychobra, makers of the polished R package for Shiny apps.</p>
+<p>These are the functions that will be covered here:</p>
+<ul>
+<li><p><code>across()</code></p></li>
+<li><p><code>slice()</code></p></li>
+<li><p><code>nest_by()</code></p></li>
+<li><p><code>.before</code> and <code>after</code></p></li>
+</ul>
+<p>In this practice workbook we’ll load the <code>AmesHousing</code>
+package for its corresponding dataset.</p>
+<pre class="r"><code>## Load the housing data, clean names, and select six columns
+pacman::p_load(AmesHousing)
+
+ames_data &lt;- make_ames() %&gt;% ## this normalizes the Ames Housing dataset a bit. 
+  janitor::clean_names() %&gt;% 
+  select(sale_price, bsmt_fin_sf_1, first_flr_sf, 
+         total_bsmt_sf, neighborhood, gr_liv_area)
+
+ames_data %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;int&gt;         &lt;dbl&gt;        &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;int&gt;
+1     215000             2         1656          1080 North_Ames          1656
+2     105000             6          896           882 North_Ames           896
+3     172000             1         1329          1329 North_Ames          1329
+4     244000             1         2110          2110 North_Ames          2110
+5     189900             3          928           928 Gilbert             1629
+6     195500             3          926           926 Gilbert             1604</code></pre>
+</div>
+<div id="across" class="section level2">
+<h2><code>across()</code></h2>
+<p><code>across()</code> was created to supersede the functions that
+used to have as suffix <code>*_at()</code>, <code>*_all()</code> or
+<code>*_if()</code>.</p>
+<p>The data contains measurements for the basements, rooms, and living
+area of the houses in square feet. Let’s convert that to yards using a
+function.</p>
+<pre class="r"><code>ft_to_yrds &lt;- function (x) {
+  x / 9
+}</code></pre>
+<p>The old way using mutate would have been:</p>
+<pre class="r"><code>ames_data %&gt;% 
+  mutate_at(.vars = vars(contains(&quot;_sf&quot;) | contains(&quot;area&quot;)), 
+            .funs = ft_to_yrds) %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;int&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
+1     215000         0.222        184            120  North_Ames         184  
+2     105000         0.667         99.6           98  North_Ames          99.6
+3     172000         0.111        148.           148. North_Ames         148. 
+4     244000         0.111        234.           234. North_Ames         234. 
+5     189900         0.333        103.           103. Gilbert            181  
+6     195500         0.333        103.           103. Gilbert            178. </code></pre>
+<p>Using <code>across()</code></p>
+<pre class="r"><code>ames_data %&gt;% 
+  mutate(across(.cols = c(contains(&quot;_sf&quot;), contains(&quot;area&quot;)),
+                .fns= ft_to_yrds)) %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;int&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
+1     215000         0.222        184            120  North_Ames         184  
+2     105000         0.667         99.6           98  North_Ames          99.6
+3     172000         0.111        148.           148. North_Ames         148. 
+4     244000         0.111        234.           234. North_Ames         234. 
+5     189900         0.333        103.           103. Gilbert            181  
+6     195500         0.333        103.           103. Gilbert            178. </code></pre>
+<p><code>across()</code> can be also be used in combination with
+<code>where</code>.</p>
+<pre class="r"><code>## Use the log function in dplyr to transform numeric values
+ames_data %&gt;% 
+  mutate(across(where(is.numeric), log)) %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
+1       12.3         0.693         7.41          6.98 North_Ames          7.41
+2       11.6         1.79          6.80          6.78 North_Ames          6.80
+3       12.1         0             7.19          7.19 North_Ames          7.19
+4       12.4         0             7.65          7.65 North_Ames          7.65
+5       12.2         1.10          6.83          6.83 Gilbert             7.40
+6       12.2         1.10          6.83          6.83 Gilbert             7.38</code></pre>
+<p>Together with <code>summarise()</code>, the use of
+<code>across()</code> with <code>where</code> can be used to empower
+more the mutate verb. <code>across()</code> has an argument called
+.names used to rename columns by adding a prefix</p>
+<pre class="r"><code>ames_data %&gt;% 
+  group_by(neighborhood) %&gt;% 
+  summarise(across(where(is.numeric),
+                   mean,
+                   .names = &quot;mean_{col}&quot;)) %&gt;% # .names creates new names for the columns with this syntax
+  head()</code></pre>
+<pre><code># A tibble: 6 × 6
+  neighborhood       mean_sale_price mean_bsmt_fin_sf_1 mean_f…¹ mean_…² mean_…³
+  &lt;fct&gt;                        &lt;dbl&gt;              &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 North_Ames                 145097.               3.66    1175.   1031.   1292.
+2 College_Creek              201803.               4.01    1173.   1158.   1496.
+3 Old_Town                   123992.               5.80     945.    798.   1432.
+4 Edwards                    130843.               4.27    1115.    885.   1338.
+5 Somerset                   229707.               4.59    1188.   1181.   1605.
+6 Northridge_Heights         322018.               3.99    1613.   1622.   1943.
+# … with abbreviated variable names ¹​mean_first_flr_sf, ²​mean_total_bsmt_sf,
+#   ³​mean_gr_liv_area</code></pre>
+<p>The following examples shows how <code>across()</code> combines a
+<code>mutate_if</code>, and a <code>mutate_at</code> in one single,
+<em>elegant</em> line of code.</p>
+<pre class="r"><code>## Change to double the integer variables that ends with &quot;_sf&quot; only.
+## The two conditions are: integer(mutate_if), and has &quot;_Sf&quot; mutate_at)
+ames_data %&gt;% 
+  mutate(across(where(is_integer) &amp; ends_with(&quot;_sf&quot;), 
+                      as.double)) %&gt;% 
+  head()</code></pre>
+<pre><code># A tibble: 6 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;int&gt;         &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;int&gt;
+1     215000             2         1656          1080 North_Ames          1656
+2     105000             6          896           882 North_Ames           896
+3     172000             1         1329          1329 North_Ames          1329
+4     244000             1         2110          2110 North_Ames          2110
+5     189900             3          928           928 Gilbert             1629
+6     195500             3          926           926 Gilbert             1604</code></pre>
+<p><code>across()</code> can also do a mutate_all if we add everything()
+as argument: <code>across(everything(),...</code></p>
+</div>
+<div id="slice" class="section level2">
+<h2><code>slice()</code></h2>
+<p><code>slice()</code> and its helpers are now the way to select the
+top or lower values in a set and also to select random samples from the
+data.</p>
+<p><code>slice()</code>supersedes <code>top_n()</code>,
+<code>sample_n()</code>, <code>sample_frac()</code> functions due their
+confusing interpretation.</p>
+<p>Examples:</p>
+<p>Old way to grab the five most expensives houses in the Ames Housing
+dataset</p>
+<pre class="r"><code>ames_data %&gt;% 
+  top_n(n = 5, 
+        wt = sale_price)</code></pre>
+<pre><code># A tibble: 5 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood       gr_li…¹
+       &lt;int&gt;         &lt;dbl&gt;        &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;                &lt;int&gt;
+1     611657             3         2364          2330 Northridge_Heights    2364
+2     615000             3         2470          2535 Northridge_Heights    2470
+3     745000             3         2411          2396 Northridge            4476
+4     755000             3         2444          2444 Northridge            4316
+5     625000             3         1831          1930 Northridge            3627
+# … with abbreviated variable name ¹​gr_liv_area</code></pre>
+<p>New way to grab the five most expensives houses with
+<code>slice</code></p>
+<pre class="r"><code>ames_data %&gt;% 
+  slice_max(sale_price, 
+            n = 5)</code></pre>
+<pre><code># A tibble: 5 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood       gr_li…¹
+       &lt;int&gt;         &lt;dbl&gt;        &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;                &lt;int&gt;
+1     755000             3         2444          2444 Northridge            4316
+2     745000             3         2411          2396 Northridge            4476
+3     625000             3         1831          1930 Northridge            3627
+4     615000             3         2470          2535 Northridge_Heights    2470
+5     611657             3         2364          2330 Northridge_Heights    2364
+# … with abbreviated variable name ¹​gr_liv_area</code></pre>
+<p>Which are the 5 cheapest houses?</p>
+<p>Old way to grab the five most expensives houses in the Ames Housing
+dataset</p>
+<pre class="r"><code>ames_data %&gt;% 
+   slice_min(sale_price, 
+            n = 5)</code></pre>
+<pre><code># A tibble: 5 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood       gr_li…¹
+       &lt;int&gt;         &lt;dbl&gt;        &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;                &lt;int&gt;
+1      12789             7          832           678 Old_Town               832
+2      13100             5          733             0 Iowa_DOT_and_Rail…     733
+3      34900             6          720           720 Iowa_DOT_and_Rail…     720
+4      35000             7          498           498 Edwards                498
+5      35311             2          480           480 Iowa_DOT_and_Rail…     480
+# … with abbreviated variable name ¹​gr_liv_area</code></pre>
+<p>Let’s now select 4 random rows.</p>
+<pre class="r"><code>ames_data %&gt;% 
+   slice_sample(n = 4)</code></pre>
+<pre><code># A tibble: 4 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;int&gt;         &lt;dbl&gt;        &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;int&gt;
+1     159000             2         1209          1209 North_Ames          1209
+2     132500             7          825           780 Brookside           1412
+3     102000             7          986           960 Brookside            986
+4      81000             7          658           658 Edwards             1184</code></pre>
+<p>To get a sample based on a proportion of the set (a percentage), we
+use the prop argument with <code>slice_sample</code>.</p>
+<pre class="r"><code>## Get a random sample of the 0.2% of the rows.  Result is 5 rows.
+ames_data %&gt;% 
+  slice_sample(prop = 0.002)</code></pre>
+<pre><code># A tibble: 5 × 6
+  sale_price bsmt_fin_sf_1 first_flr_sf total_bsmt_sf neighborhood gr_liv_area
+       &lt;int&gt;         &lt;dbl&gt;        &lt;int&gt;         &lt;dbl&gt; &lt;fct&gt;              &lt;int&gt;
+1     239000             3         1064          1064 Stone_Brook         1767
+2     591587             3         2338          2660 Stone_Brook         2338
+3     143000             3         1133           192 Old_Town            1133
+4     155000             3         1114          1114 Sawyer_West         1114
+5     245000             3         1409          1409 Mitchell            1409</code></pre>
+<p>Additionally, <code>slice_head()</code>, and
+<code>slice_tails()</code> are used to show the first or last rows
+respectively.</p>
 </div>
 <div id="back-to-home" class="section level2">
 <h2>Back to Home</h2>
@@ -707,7 +983,7 @@ Session information
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>R version 4.2.1 (2022-06-23 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19043)
+Running under: Windows 10 x64 (build 19045)
 
 Matrix products: default
 
@@ -720,49 +996,37 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] here_1.0.1      janitor_2.1.0   forcats_0.5.2   stringr_1.4.1  
- [5] dplyr_1.0.10    purrr_0.3.4     readr_2.1.2     tidyr_1.2.0    
- [9] tibble_3.1.8    ggplot2_3.3.6   tidyverse_1.3.2 workflowr_1.7.0
+ [1] AmesHousing_0.0.4 here_1.0.1        janitor_2.1.0     forcats_0.5.2    
+ [5] stringr_1.4.1     dplyr_1.0.10      purrr_0.3.4       readr_2.1.2      
+ [9] tidyr_1.2.0       tibble_3.1.8      ggplot2_3.3.6     tidyverse_1.3.2  
+[13] workflowr_1.7.0  
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.9          lubridate_1.9.0     getPass_0.2-2      
- [4] ps_1.7.1            assertthat_0.2.1    rprojroot_2.0.3    
- [7] digest_0.6.29       utf8_1.2.2          R6_2.5.1           
-[10] cellranger_1.1.0    backports_1.4.1     reprex_2.0.2       
-[13] evaluate_0.16       httr_1.4.4          pillar_1.8.1       
-[16] rlang_1.0.6         readxl_1.4.1        googlesheets4_1.0.1
-[19] rstudioapi_0.14     whisker_0.4         callr_3.7.2        
-[22] jquerylib_0.1.4     rmarkdown_2.16      googledrive_2.0.0  
-[25] munsell_0.5.0       broom_1.0.1         modelr_0.1.9       
-[28] compiler_4.2.1      httpuv_1.6.5        xfun_0.32          
-[31] pkgconfig_2.0.3     htmltools_0.5.3     tidyselect_1.1.2   
-[34] fansi_1.0.3         crayon_1.5.2        withr_2.5.0        
-[37] tzdb_0.3.0          dbplyr_2.2.1        later_1.3.0        
-[40] grid_4.2.1          jsonlite_1.8.3      gtable_0.3.1       
-[43] lifecycle_1.0.3     DBI_1.1.3           git2r_0.30.1       
-[46] pacman_0.5.1        magrittr_2.0.3      scales_1.2.1       
-[49] cli_3.3.0           stringi_1.7.8       cachem_1.0.6       
-[52] fs_1.5.2            promises_1.2.0.1    snakecase_0.11.0   
-[55] xml2_1.3.3          bslib_0.4.0         ellipsis_0.3.2     
-[58] generics_0.1.3      vctrs_0.4.1         tools_4.2.1        
-[61] glue_1.6.2          hms_1.1.2           processx_3.7.0     
-[64] fastmap_1.1.0       yaml_2.3.5          timechange_0.1.1   
-[67] colorspace_2.0-3    gargle_1.2.0        rvest_1.0.3        
-[70] knitr_1.40          haven_2.5.1         sass_0.4.2         </code></pre>
-<div class="alert alert-warning">
-<p>
-<strong>Warning:</strong> The above code chunk cached its results, but
-it won’t be re-run if previous chunks it depends on are updated. If you
-need to use caching, it is highly recommended to also set
-<code>knitr::opts_chunk$set(autodep = TRUE)</code> at the top of the
-file (in a chunk that is not cached). Alternatively, you can customize
-the option <code>dependson</code> for each individual chunk that is
-cached. Using either <code>autodep</code> or <code>dependson</code> will
-remove this warning. See the
-<a href="https://yihui.name/knitr/options/#cache"
->knitr cache options</a> for more details.
-</p>
-</div>
+ [1] httr_1.4.4          sass_0.4.2          jsonlite_1.8.3     
+ [4] modelr_0.1.9        bslib_0.4.0         assertthat_0.2.1   
+ [7] getPass_0.2-2       googlesheets4_1.0.1 cellranger_1.1.0   
+[10] yaml_2.3.5          pillar_1.8.1        backports_1.4.1    
+[13] glue_1.6.2          digest_0.6.29       promises_1.2.0.1   
+[16] rvest_1.0.3         snakecase_0.11.0    colorspace_2.0-3   
+[19] htmltools_0.5.3     httpuv_1.6.5        pkgconfig_2.0.3    
+[22] broom_1.0.1         haven_2.5.1         scales_1.2.1       
+[25] processx_3.7.0      whisker_0.4         later_1.3.0        
+[28] tzdb_0.3.0          timechange_0.1.1    git2r_0.30.1       
+[31] googledrive_2.0.0   generics_0.1.3      ellipsis_0.3.2     
+[34] cachem_1.0.6        pacman_0.5.1        withr_2.5.0        
+[37] cli_3.3.0           magrittr_2.0.3      crayon_1.5.2       
+[40] readxl_1.4.1        evaluate_0.16       ps_1.7.1           
+[43] fs_1.5.2            fansi_1.0.3         xml2_1.3.3         
+[46] tools_4.2.1         hms_1.1.2           gargle_1.2.0       
+[49] lifecycle_1.0.3     munsell_0.5.0       reprex_2.0.2       
+[52] callr_3.7.2         compiler_4.2.1      jquerylib_0.1.4    
+[55] rlang_1.0.6         grid_4.2.1          rstudioapi_0.14    
+[58] rmarkdown_2.16      codetools_0.2-18    gtable_0.3.1       
+[61] DBI_1.1.3           R6_2.5.1            lubridate_1.9.0    
+[64] knitr_1.40          fastmap_1.1.0       utf8_1.2.2         
+[67] rprojroot_2.0.3     stringi_1.7.8       Rcpp_1.0.9         
+[70] vctrs_0.4.1         dbplyr_2.2.1        tidyselect_1.1.2   
+[73] xfun_0.32          </code></pre>
 </div>
 </div>
 
