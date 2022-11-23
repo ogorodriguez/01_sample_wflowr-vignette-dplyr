@@ -397,7 +397,7 @@ aria-hidden="true"></span> </a>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-11-20
+<strong>Last updated:</strong> 2022-11-23
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -529,6 +529,9 @@ new way with slice to get 5 lowest values
 old way with top_n to get 5 highest values
 </li>
 <li>
+perform a linear model on the nested column
+</li>
+<li>
 select random rows from the dataset
 </li>
 <li>
@@ -538,10 +541,22 @@ session-info-chunk-inserted-by-workflowr
 unnamed-chunk-1
 </li>
 <li>
+unnamed-chunk-2
+</li>
+<li>
+unnamed-chunk-3
+</li>
+<li>
 use <code>across()</code> to combine mutate_at and mutate_if
 </li>
 <li>
 use <code>across()</code> with <code>where</code>
+</li>
+<li>
+use <code>nest_by()</code> to fit a linear model in ames_data
+</li>
+<li>
+use group_by and summarise to get average sale price by neighborhood
 </li>
 <li>
 using summarise with acros and where
@@ -573,15 +588,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreef20f338e32c521d2eace11ffc0bf62400f06c04etargetblankf20f338a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree462aeb4a42ad646a8454c7942d5cbfb82f04108atargetblank462aeb4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/f20f338e32c521d2eace11ffc0bf62400f06c04e" target="_blank">f20f338</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/462aeb4a42ad646a8454c7942d5cbfb82f04108a" target="_blank">462aeb4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreef20f338e32c521d2eace11ffc0bf62400f06c04etargetblankf20f338a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree462aeb4a42ad646a8454c7942d5cbfb82f04108atargetblank462aeb4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -591,7 +606,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/f20f338e32c521d2eace11ffc0bf62400f06c04e" target="_blank">f20f338</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/462aeb4a42ad646a8454c7942d5cbfb82f04108a" target="_blank">462aeb4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -664,6 +679,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/462aeb4a42ad646a8454c7942d5cbfb82f04108a/analysis/02_tychobra_favorite-features-dplyr.Rmd" target="_blank">462aeb4</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-23
+</td>
+<td>
+Added nest_by() example
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/a7d0506df573040b924421aeee3248a3afbc98ae/docs/02_tychobra_favorite-features-dplyr.html" target="_blank">a7d0506</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-20
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -998,8 +1047,88 @@ ames_data %&gt;%
 4     155000             3         1114          1114 Sawyer_West         1114
 5     245000             3         1409          1409 Mitchell            1409</code></pre>
 <p>Additionally, <code>slice_head()</code>, and
-<code>slice_tails()</code> are used to show the first or last rows
-respectively.</p>
+<code>slice_tails()</code> are used to show the first or last rows</p>
+<pre class="r"><code>AmesHousing::ames_raw %&gt;% View()</code></pre>
+</div>
+<div id="nest_by" class="section level2">
+<h2><code>nest_by()</code></h2>
+<p><code>nest_by()</code> works similar to <code>group_by()</code> as to
+the fact that it adds grouped metadata, and it brings nested columns
+into the dplyr analysis.</p>
+<p>It transforms the tibble into a rowwise dataframe.</p>
+<p>In the next example we will use the traditional
+<code>group_by()</code> and <code>summarise()</code> to calculate
+average sale price by neighborhood. This shows how these two work well
+to get one single value out of the calculation.</p>
+<pre class="r"><code>ames_data %&gt;% 
+  group_by(neighborhood) %&gt;% 
+  summarise(avg_sale_price = mean(sale_price)) %&gt;% 
+  ungroup() %&gt;% 
+  slice_head(n = 6)</code></pre>
+<pre><code># A tibble: 6 × 2
+  neighborhood       avg_sale_price
+  &lt;fct&gt;                       &lt;dbl&gt;
+1 North_Ames                145097.
+2 College_Creek             201803.
+3 Old_Town                  123992.
+4 Edwards                   130843.
+5 Somerset                  229707.
+6 Northridge_Heights        322018.</code></pre>
+<p>For more complicated operations on the grouped rows, such as using
+linear models, <code>nest_by()</code> stores grouped data as lists in a
+new column called data.</p>
+<pre class="r"><code>## First let&#39;s see what happens when we nest a column instead of grouping.
+nested_ames &lt;- ames_data %&gt;% 
+  nest_by(neighborhood)
+
+nested_ames %&gt;% 
+  head(n = 6)</code></pre>
+<pre><code># A tibble: 6 × 2
+# Rowwise:  neighborhood
+  neighborhood                     data
+  &lt;fct&gt;              &lt;list&lt;tibble[,5]&gt;&gt;
+1 North_Ames                  [443 × 5]
+2 College_Creek               [267 × 5]
+3 Old_Town                    [239 × 5]
+4 Edwards                     [194 × 5]
+5 Somerset                    [182 × 5]
+6 Northridge_Heights          [166 × 5]</code></pre>
+<p><code>nest_by()</code> has changed the structure of the table and now
+we have all the other columns collected in one single column with the
+rest of the rows and data as a list.</p>
+<p>Let’s perform a linear regression model on the data column using the
+square footage and sale price to each neighborhood. The model needs to
+be vectorized, hence the use of <code>list()</code></p>
+<pre class="r"><code>nested_ames_model &lt;- nested_ames %&gt;% 
+  mutate(lin_model_test = list(lm(sale_price ~ gr_liv_area, data = data)))
+
+nested_ames_model %&gt;% 
+  head(n=6)</code></pre>
+<pre><code># A tibble: 6 × 3
+# Rowwise:  neighborhood
+  neighborhood                     data lin_model_test
+  &lt;fct&gt;              &lt;list&lt;tibble[,5]&gt;&gt; &lt;list&gt;        
+1 North_Ames                  [443 × 5] &lt;lm&gt;          
+2 College_Creek               [267 × 5] &lt;lm&gt;          
+3 Old_Town                    [239 × 5] &lt;lm&gt;          
+4 Edwards                     [194 × 5] &lt;lm&gt;          
+5 Somerset                    [182 × 5] &lt;lm&gt;          
+6 Northridge_Heights          [166 × 5] &lt;lm&gt;          </code></pre>
+<p>Let’s check one of the models. The Edwards neighborhood.</p>
+<pre class="r"><code>edwards_model &lt;- nested_ames_model %&gt;% 
+  filter(neighborhood == &quot;Edwards&quot;) %&gt;% 
+  pull(lin_model_test)
+
+
+edwards_model </code></pre>
+<pre><code>[[1]]
+
+Call:
+lm(formula = sale_price ~ gr_liv_area, data = data)
+
+Coefficients:
+(Intercept)  gr_liv_area  
+   77296.72        40.03  </code></pre>
 </div>
 <div id="back-to-home" class="section level2">
 <h2>Back to Home</h2>
