@@ -517,6 +517,9 @@ convert feet to yards using mutate
 download the AmesHousing dataset
 </li>
 <li>
+extracting the results of one of the models
+</li>
+<li>
 function to convert feet to yards
 </li>
 <li>
@@ -536,6 +539,9 @@ select random rows from the dataset
 </li>
 <li>
 session-info-chunk-inserted-by-workflowr
+</li>
+<li>
+the .keep argument
 </li>
 <li>
 unnamed-chunk-1
@@ -588,15 +594,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree462aeb4a42ad646a8454c7942d5cbfb82f04108atargetblank462aeb4a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreed64c057251d3494278ec15e97898f8e20de22744targetblankd64c057a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/462aeb4a42ad646a8454c7942d5cbfb82f04108a" target="_blank">462aeb4</a>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/d64c057251d3494278ec15e97898f8e20de22744" target="_blank">d64c057</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtree462aeb4a42ad646a8454c7942d5cbfb82f04108atargetblank462aeb4a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomogorodriguez01samplewflowrvignettedplyrtreed64c057251d3494278ec15e97898f8e20de22744targetblankd64c057a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -606,7 +612,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/462aeb4a42ad646a8454c7942d5cbfb82f04108a" target="_blank">462aeb4</a>.
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/tree/d64c057251d3494278ec15e97898f8e20de22744" target="_blank">d64c057</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -679,6 +685,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/blob/d64c057251d3494278ec15e97898f8e20de22744/analysis/02_tychobra_favorite-features-dplyr.Rmd" target="_blank">d64c057</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-23
+</td>
+<td>
+Added an extra section for .keep
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/ogorodriguez/01_sample_wflowr-vignette-dplyr/f061cca0c2a245ab993b83a3e30e85600ff474ba/docs/02_tychobra_favorite-features-dplyr.html" target="_blank">f061cca</a>
+</td>
+<td>
+ogorodriguez
+</td>
+<td>
+2022-11-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1129,6 +1169,26 @@ lm(formula = sale_price ~ gr_liv_area, data = data)
 Coefficients:
 (Intercept)  gr_liv_area  
    77296.72        40.03  </code></pre>
+</div>
+<div id="keep-argument" class="section level2">
+<h2><code>.keep</code> argument</h2>
+<p>One last thing to add is the <code>.keep</code> argument used to keep
+the columns when doing a <code>summarise()</code>. We need to make .keep
+= “used”</p>
+<pre class="r"><code>## Changing the sales price into euros
+ames_data %&gt;% 
+  mutate(sale_price_euro = sale_price / 1.1,
+         .keep = &quot;used&quot;) %&gt;% 
+  slice_head(n = 6)</code></pre>
+<pre><code># A tibble: 6 × 2
+  sale_price sale_price_euro
+       &lt;int&gt;           &lt;dbl&gt;
+1     215000         195455.
+2     105000          95455.
+3     172000         156364.
+4     244000         221818.
+5     189900         172636.
+6     195500         177727.</code></pre>
 </div>
 <div id="back-to-home" class="section level2">
 <h2>Back to Home</h2>
