@@ -186,11 +186,73 @@ ames_data %>%
 ```
 
 Additionally, `slice_head()`, and `slice_tails()` are used to show the first or last rows
-respectively.  
 
 
+```{r}
+AmesHousing::ames_raw %>% View()
+```
+
+## `nest_by()`
+
+`nest_by()` works similar to `group_by()` as to the fact that it adds grouped metadata,
+and it brings nested columns into the dplyr analysis.  
+
+It transforms the tibble into a rowwise dataframe.  
+
+In the next example we will use the traditional `group_by()` and `summarise()` to 
+calculate average sale price by neighborhood.  This shows how these two work well
+to get one single value out of the calculation.
+
+```{r use group_by and summarise to get average sale price by neighborhood}
+ames_data %>% 
+  group_by(neighborhood) %>% 
+  summarise(avg_sale_price = mean(sale_price)) %>% 
+  ungroup() %>% 
+  slice_head(n = 6)
+              
+
+```
+
+For more complicated operations on the grouped rows, such as using linear models,
+`nest_by()` stores grouped data as lists in a new column called data.
+
+```{r use `nest_by()` to fit a linear model in ames_data}
+## First let's see what happens when we nest a column instead of grouping.
+nested_ames <- ames_data %>% 
+  nest_by(neighborhood)
+
+nested_ames %>% 
+  head(n = 6)
+
+```
+
+`nest_by()` has changed the structure of the table and now we have all the other
+columns collected in one single column with the rest of the rows and data as a list.
+
+Let's perform a linear regression model on the data column using the square footage
+and sale price to each neighborhood.  The model needs to be vectorized, hence the 
+use of `list()`
+
+```{r perform a linear model on the nested column}
+nested_ames_model <- nested_ames %>% 
+  mutate(lin_model_test = list(lm(sale_price ~ gr_liv_area, data = data)))
+
+nested_ames_model %>% 
+  head(n=6)
+
+```
+
+Let's check one of the models.  The Edwards neighborhood.
+
+```{r}
+edwards_model <- nested_ames_model %>% 
+  filter(neighborhood == "Edwards") %>% 
+  pull(lin_model_test)
 
 
+edwards_model 
+
+```
 
 
 ## Back to Home
