@@ -244,7 +244,7 @@ nested_ames_model %>%
 
 Let's check one of the models.  The Edwards neighborhood.
 
-```{r}
+```{r extracting the results of one of the models}
 edwards_model <- nested_ames_model %>% 
   filter(neighborhood == "Edwards") %>% 
   pull(lin_model_test)
@@ -252,6 +252,18 @@ edwards_model <- nested_ames_model %>%
 
 edwards_model 
 
+```
+## `.keep` argument
+
+One last thing to add is the `.keep` argument used to keep the columns when 
+doing a `summarise()`. We need to make .keep = "used"
+
+```{r the .keep argument}
+## Changing the sales price into euros
+ames_data %>% 
+  mutate(sale_price_euro = sale_price / 1.1,
+         .keep = "used") %>% 
+  slice_head(n = 6)
 ```
 
 
